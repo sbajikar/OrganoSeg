@@ -1,0 +1,40 @@
+imageTitle=getTitle();
+run("8-bit");
+run("Sharpen");
+run("Median...", "radius=1");
+
+run("Duplicate...", "title=temp");
+run("Duplicate...", "title=temp2");
+
+run("Maximum...", "radius=5");
+
+run("Morphological Reconstruction", "marker=temp2  mask=temp type=[By Erosion] connectivity=4");
+
+run("Duplicate...", "title=temp3");
+run("Duplicate...", "title=temp4");
+
+run("Minimum...", "radius=5");
+
+run("Morphological Reconstruction", "marker=temp4  mask=temp3 type=[By Dilation] connectivity=4");
+
+run("8-bit");
+
+run("Duplicate...", "title=temp5");
+
+run("adaptiveThr ", "using=[Weighted mean] from=250 then=0");
+
+run("Fill Holes");
+
+run("Analyze Particles...", "size=10-Infinity pixel exclude add");
+
+selectWindow(imageTitle);
+
+roiManager("Measure");
+
+run("Select All");
+
+roiManager("Delete");
+
+
+
+
